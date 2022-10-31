@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      color: #FFF;
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      /* background-color: #000; */
+      background-image: url(./img/bg.png);
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      display: block;
+      z-index: 1;
+    }
+
+    .top {
+      position: relative;
+      top: 0;
+      left: 0;
+      height: 20vh;
+    }
+
+    .title {
+      top: 0;
+      z-index: 2;
+      position: relative;
+      text-align: center;
+      background-image: url(./img/c0d6dfe545bb4d50aa9006e0ec75fb47.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      width: 100%;
+      height: 30%;
+      transform: translate(0%, -10%);
+    }
+
+    .title>.titlebg {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      height: 100px;
+      transform: translate(-50%, -50%);
+      /* height: 50px; */
+      background-image: url(./img/105ea29c-b173-41ff-a60b-a044f1017f9a.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+
+    .titlebg>div {
+      margin-top: 40px;
+      /* position: absolute; */
+      text-shadow: 0px 0px 10px 10px #02ffff;
+
+      font-size: 2em;
+      width: auto;
+
+      top: 50px;
+      /* width: 100px; */
+      height: 40px;
+    }
+
+    .bottom {
+      z-index: 2;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 10%;
+      background-image: url(./img/bottm.png);
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-position: 0px 20px;
+    }
+
+    .topinfo {
+      z-index: 2;
+      position: absolute;
+      top: 20px;
+      left: 50%;
+    }
+
+    .topinfoleft {
+      position: absolute;
+      top: 15px;
+      /* left: 10%; */
+      width: 20vw;
+      height: 15vh;
+      background-image: url(./img/topinfo.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-position: 0px 0px;
+    }
+
+    .topinfoleft>div {
+      position: absolute;
+      font-size: 1.5rem;
+      bottom: 15%;
+      right: 15%;
+      /* bottom: 20px;
+        right: 20px; */
+    }
+
+    .topinforight {
+      position: absolute;
+      /* top:-50px; */
+      /* top: 6px; */
+      background-image: url(./img/topinfo.png);
+      transform: rotateY(-180deg);
+      top: 15px;
+      width: 20vw;
+      
+      height: 15vh;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-position: 0px 0px;
+      right: 0;
+    }
+
+    .topinforight>div {
+      text-align: left;
+      width: 100%;
+      height: 20%;
+      position: absolute;
+      transform: rotateY(-180deg);
+      font-size: 1.5rem;
+      bottom: 15%;
+      right: 15%;
+    }
+
+
+    /* .main {
+      position: relative;
+      width: 100%;
+      height: 60%;
+      z-index: 2;
+    } */
+
+    .left {
+      position: absolute;
+      width: 30vw;
+      height: 60vh;
+      left: 2vw;
+      z-index: 2;
+    }
+
+    .right {
+      position: absolute;
+      width: 30vw;
+      height: 60vh;
+      right: 2vw;
+      z-index: 2;
+
+    }
+
+    .infolefttop {
+      /* position: absolute; */
+      background-image: url(./img/bar.png);
+      margin-top: 30px;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      width: 100%;
+      height: 50%;
+    }
+
+    .infolefttop {
+      background-image: url(./img/bar.png);
+      margin-top: 30px;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      width: 100%;
+      height: 50%;
+    }
+
+    .infolefttop>div {
+      width: 100%;
+      height: 90%;
+    }
+
+
+
+
+
+    /* backdrop-filter: ; */
+
+  </style>
+</head>
+
+<body>
+  <div style="z-index: 9999;position: absolute;;top:50%;left: 50%;transform: translate(-50%,-50%);opacity: 0.3;">
+    数据均为开发使用,非真实数据
+  </div>
+  <div class="top">
+    <div class="title">
+      <div class="titlebg">
+        <div>
+          XX省医院大数据可视化
+        </div>
+      </div>
+      <div class="topinforight">
+        <div>
+          全市确诊人数：<span id="innum">000</span>
+        </div>
+      </div>
+      <div class="topinfoleft">
+        <div>
+          市：<span id="sf">请选择</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="main">
+    <div class="left">
+      <div class="infolefttop">
+        确诊人数
+        <div id="main1">
+        </div>
+      </div>
+      <div class="infolefttop">
+        确诊类型
+        <div id="main2">
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="infolefttop">
+        医院压力
+        <div id="main3">
+        </div>
+      </div>
+      <div class="infolefttop">
+        全省确诊排行
+        <div id="main4">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  <canvas id="canvas3d">
+
+
+
+
+  </canvas>
+  <div class="bottom">
+    <div>
+    </div>
+  </div>
+
+
+
+
+  <script src="./js/echarts.js"></script>
+
+  <!-- <a class="logo" href="https://spline.design"></a> -->
+  <script type="module">
+    let innum = document.getElementById("innum");
+    // import * as echarts from './js/echarts.js';
+    var main1 = echarts.init(document.getElementById("main1"));
+    var option1 = {
+      xAxis: {
+        type: 'category',
+        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: [120, 200, 150, 80, 70, 110, 130],
+          type: 'bar',
+          showBackground: true,
+          backgroundStyle: {
+            color: 'rgba(180, 180, 180, 0.2)'
+          }
+        }
+      ]
+    };
+    main1.setOption(option1);
+
+    var main2 = echarts.init(document.getElementById("main2"));
+    var option2 = {
+      legend: {
+        top: 'bottom'
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: true, readOnly: false },
+          restore: { show: true },
+          saveAsImage: { show: true }
+        }
+      },
+      series: [
+        {
+          name: 'Nightingale Chart',
+          type: 'pie',
+          radius: [10, 100],
+          center: ['50%', '50%'],
+          roseType: 'area',
+          itemStyle: {
+            borderRadius: 8
+          },
+          data: [
+            { value: 40, name: 'rose 1' },
+            { value: 38, name: 'rose 2' },
+            { value: 32, name: 'rose 3' },
+            { value: 30, name: 'rose 4' },
+            { value: 28, name: 'rose 5' },
+            { value: 26, name: 'rose 6' },
+            { value: 22, name: 'rose 7' },
+            { value: 18, name: 'rose 8' }
+          ]
+        }
+      ]
+    };
+    main2.resize("80%", "80%")
+
+    main2.setOption(option2);
+
+
+    var main3 = echarts.init(document.getElementById("main3"));
+    var option3 = {
+      series: [
+        {
+          type: 'gauge',
+          axisLine: {
+            lineStyle: {
+              width: 30,
+              color: [
+                [0.3, '#67e0e3'],
+                [0.7, '#37a2da'],
+                [1, '#fd666d']
+              ]
+            }
+          },
+          pointer: {
+            itemStyle: {
+              color: 'auto'
+            }
+          },
+          axisTick: {
+            distance: -30,
+            length: 8,
+            lineStyle: {
+              color: '#fff',
+              width: 2
+            }
+          },
+          splitLine: {
+            distance: -30,
+            length: 30,
+            lineStyle: {
+              color: '#fff',
+              width: 4
+            }
+          },
+          axisLabel: {
+            color: 'auto',
+            distance: 40,
+            fontSize: 20
+          },
+          detail: {
+            valueAnimation: true,
+            formatter: '{value} %',
+            color: 'auto'
+          },
+          data: [
+            {
+              value: 50
+            }
+          ]
+        }
+      ]
+    };
+    // setInterval(function () {
+    //   main3.setOption({
+    //     series: [
+    //       {
+    //         data: [
+    //           {
+    //             value: +(Math.random() * 100).toFixed(2)
+    //             // value:0
+    //           }
+    //         ]
+    //       }
+    //     ]
+    //   });
+    // }, 2000);
+    main3.setOption(option3);
+
+    var main4 = echarts.init(document.getElementById("main4"));
+
+    const data4 = [];
+    for (let i = 0; i < 5; ++i) {
+      data4.push(Math.round(Math.random() * 200));
+    }
+
+    function run() {
+      for (var i = 0; i < data4.length; ++i) {
+        if (Math.random() > 0.9) {
+          data4[i] += Math.round(Math.random() * 2000);
+        } else {
+          data4[i] += Math.round(Math.random() * 200);
+        }
+      }
+      main4.setOption({
+        series: [
+          {
+            type: 'bar',
+            data: data4
+          }
+        ]
+      });
+    }
+
+    var option4 = {
+      xAxis: {
+        max: 'dataMax'
+      },
+      yAxis: {
+        type: 'category',
+        data: ['郑州市', '南阳市', '商丘市', '焦作市', '周口市'],
+        inverse: true,
+        animationDuration: 300,
+        animationDurationUpdate: 300,
+        max: 2 // only the largest 3 bars will be displayed
+      },
+      series: [
+        {
+          realtimeSort: true,
+          name: 'X',
+          type: 'bar',
+          data: data4,
+          label: {
+            show: true,
+            position: 'right',
+            valueAnimation: true
+          }
+        }
+      ],
+      legend: {
+        show: true
+      },
+      animationDuration: 0,
+      animationDurationUpdate: 3000,
+      animationEasing: 'linear',
+      animationEasingUpdate: 'linear'
+    };
+
+    setTimeout(function () {
+      run();
+    }, 0);
+    setInterval(function () {
+      run();
+    }, 3000);
+    main4.setOption(option4);
+
+
+
+    function setData(data1,data2,data3) {
+      option1.series[0].data = data1
+      main1.setOption(option1)
+      option2.series[0].data = data2
+      main2.setOption(option2)
+      option3.series[0].data = data3
+      main3.setOption(option3)
+    }
+    setData([0, 0, 0, 0, 0, 0, 0],[
+            { value: 0, name: '新冠' },
+            { value: 0, name: 'rose 2' },
+            { value: 0, name: 'rose 3' },
+            { value: 0, name: 'rose 4' },
+            { value: 0, name: 'rose 5' },
+            { value: 0, name: 'rose 6' },
+            { value: 0, name: 'rose 7' },
+            { value: 0, name: 'rose 8' }
+          ],[{value:0}])
+
+
+
+
+
+
+
+
+
+
+    import { Application } from './runtime.js';
+    const canvas = document.getElementById('canvas3d');
+    const app = new Application(canvas);
+
+    let sf = document.getElementById("sf")
+
+
+
+    let datainfo = [
+      {
+        name: "郑州市",
+        id: "5a9224f2-3df5-4f2d-a7ba-53abcf362bee",
+        main1: {
+          data: [120, 200, 150, 80, 70, 110, 130]
+
+        },
+        main2: {
+          data: [
+            { value: 40, name: 'rose 1' },
+            { value: 38, name: 'rose 2' },
+            { value: 32, name: 'rose 3' },
+            { value: 30, name: 'rose 4' },
+            { value: 28, name: 'rose 5' },
+            { value: 26, name: 'rose 6' },
+            { value: 22, name: 'rose 7' },
+            { value: 18, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 50
+            }
+          ]
+        },
+        allnum:100
+
+      },
+      {
+        name: "开封市",
+        id: "846f0f87-d0c2-4401-80ce-77a6cceb4e41",
+        main1: {
+          data: [0, 1, 5, 3, 5, 0, 1]
+        },
+        main2: {
+          data: [
+            { value: 40, name: 'rose 1' },
+            { value: 38, name: 'rose 2' },
+            { value: 32, name: 'rose 3' },
+            { value: 30, name: 'rose 4' },
+            { value: 28, name: 'rose 5' },
+            { value: 26, name: 'rose 6' },
+            { value: 22, name: 'rose 7' },
+            { value: 18, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 10
+            }
+          ]
+        },
+        allnum:200
+      },
+      {
+        name: "洛阳市",
+        id: "b91f293a-86e5-41b8-9d75-ceafbff6266f",
+        main1: {
+          data: [0, 0, 0, 1, 0, 1, 1]
+        },
+        main2: {
+          data: [
+            { value: 20, name: 'rose 1' },
+            { value: 38, name: 'rose 2' },
+            { value: 32, name: 'rose 3' },
+            { value: 30, name: 'rose 4' },
+            { value: 28, name: 'rose 5' },
+            { value: 15, name: 'rose 6' },
+            { value: 10, name: 'rose 7' },
+            { value: 10, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 50
+            }
+          ]
+        },
+        allnum:5
+      },
+      {
+        name: "平顶山市",
+        id: "7e89dc83-6372-4b30-94ca-d2992626fbba",
+        main1: {
+          data: [1, 5, 2, 3, 5, 1, 0]
+        },
+        main2: {
+          data: [
+            { value: 10, name: 'rose 1' },
+            { value: 2, name: 'rose 2' },
+            { value: 0, name: 'rose 3' },
+            { value: 10, name: 'rose 4' },
+            { value: 5, name: 'rose 5' },
+            { value: 10, name: 'rose 6' },
+            { value: 2, name: 'rose 7' },
+            { value: 0, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 10
+            }
+          ]
+        },
+        allnum:3
+      },
+      {
+        name: "安阳市",
+        id: "79490a9e-8b4a-4061-b16f-d767f45f63fc",
+        main1: {
+          data: [200, 500, 300, 100, 300, 100, 100]
+        },
+        main2: {
+          data: [
+            { value: 10, name: 'rose 1' },
+            { value: 55, name: 'rose 2' },
+            { value: 0, name: 'rose 3' },
+            { value: 70, name: 'rose 4' },
+            { value: 50, name: 'rose 5' },
+            { value: 50, name: 'rose 6' },
+            { value: 10, name: 'rose 7' },
+            { value: 50, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 100
+            }
+          ]
+        },
+        allnum:100
+      },
+      {
+        name: "鹤壁市",
+        id: "c17481fa-13a8-4b0f-951b-715f025a0251",
+        main1: {
+          data: [1, 10, 0, 3, 0, 1, 0]
+        },
+        main2: {
+          data: [
+            { value: 10, name: 'rose 1' },
+            { value: 0, name: 'rose 2' },
+            { value: 0, name: 'rose 3' },
+            { value: 20, name: 'rose 4' },
+            { value: 50, name: 'rose 5' },
+            { value: 10, name: 'rose 6' },
+            { value: 2, name: 'rose 7' },
+            { value: 0, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 30
+            }
+          ]
+        },
+        allnum:1
+      },
+      {
+        name: "新乡市",
+        id: "ae6fe9d9-218f-4e18-885e-7ce5e0f8cd8d",
+        main1: {
+          data: [20, 10, 20, 5, 3, 5, 0]
+        },
+        main2: {
+          data: [
+            { value: 10, name: 'rose 1' },
+            { value: 2, name: 'rose 2' },
+            { value: 0, name: 'rose 3' },
+            { value: 10, name: 'rose 4' },
+            { value: 50, name: 'rose 5' },
+            { value: 10, name: 'rose 6' },
+            { value: 2, name: 'rose 7' },
+            { value: 0, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 100
+            }
+          ]
+        },
+        allnum:10
+      },
+      {
+        name: "焦作市",
+        id: "0890cf6c-4f23-4f46-bee0-3f15e096e823",
+        main1: {
+          data: [0, 0, 0, 0, 0, 0, 0]
+        },
+        main2: {
+          data: [
+            { value: 0, name: 'rose 1' },
+            { value: 0, name: 'rose 2' },
+            { value: 0, name: 'rose 3' },
+            { value: 3, name: 'rose 4' },
+            { value: 0, name: 'rose 5' },
+            { value: 0, name: 'rose 6' },
+            { value: 2, name: 'rose 7' },
+            { value: 0, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 0
+            }
+          ]
+        },
+        allnum:1
+      },
+      {
+        name: "濮阳市",
+        id: "65ba7b04-cfb0-4b40-98aa-2d482ddf549f",
+        main1: {
+          data: [1, 1, 0, 6, 40, 1, 0]
+        },
+        main2: {
+          data: [
+            { value: 10, name: 'rose 1' },
+            { value: 10, name: 'rose 2' },
+            { value: 50, name: 'rose 3' },
+            { value: 40, name: 'rose 4' },
+            { value: 60, name: 'rose 5' },
+            { value: 10, name: 'rose 6' },
+            { value: 11, name: 'rose 7' },
+            { value: 45, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 66
+            }
+          ]
+        },
+        allnum:66
+      },
+      {
+        name: "许昌市",
+        id: "79de3a7f-cf0e-40d3-b74e-36d0b2e2f15a",
+        main1: {
+          data: [50, 30, 50, 10, 52, 50, 10]
+        },
+        main2: {
+          data: [
+            { value: 50, name: 'rose 1' },
+            { value: 60, name: 'rose 2' },
+            { value: 40, name: 'rose 3' },
+            { value: 50, name: 'rose 4' },
+            { value: 60, name: 'rose 5' },
+            { value: 40, name: 'rose 6' },
+            { value: 15, name: 'rose 7' },
+            { value: 43, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 43
+            }
+          ]
+        },
+        allnum:43
+      },
+      {
+        name: "漯河市",
+        id: "2690b3a3-e023-411d-95bb-253491d918e0",
+        main1: {
+          data: [44, 53, 73, 77, 33, 45, 64]
+        },
+        main2: {
+          data: [
+            { value: 42, name: 'rose 1' },
+            { value: 42, name: 'rose 2' },
+            { value: 10, name: 'rose 3' },
+            { value: 42, name: 'rose 4' },
+            { value: 10, name: 'rose 5' },
+            { value: 45, name: 'rose 6' },
+            { value: 10, name: 'rose 7' },
+            { value: 1, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 40
+            }
+          ]
+        },
+        allnum:40
+      },
+      {
+        name: "三门峡市",
+        id: "92b9021d-e1cf-410d-b3e3-d6ea7466f1dd",
+        main1: {
+          data: [10, 40, 20, 10, 6, 4, 0]
+        },
+        main2: {
+          data: [
+            { value: 0, name: 'rose 1' },
+            { value: 0, name: 'rose 2' },
+            { value: 10, name: 'rose 3' },
+            { value: 0, name: 'rose 4' },
+            { value: 50, name: 'rose 5' },
+            { value: 60, name: 'rose 6' },
+            { value: 10, name: 'rose 7' },
+            { value: 5, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 40
+            }
+          ]
+        },
+        allnum:40
+      },
+      {
+        name: "南阳市",
+        id: "28fe8561-dbac-4fe7-8a59-4c0332cc35fd",
+        main1: {
+          data: [1, 10, 60, 10, 35, 40]
+        },
+        main2: {
+          data: [
+            { value: 10, name: 'rose 1' },
+            { value: 2, name: 'rose 2' },
+            { value: 5, name: 'rose 3' },
+            { value: 5, name: 'rose 4' },
+            { value: 4, name: 'rose 5' },
+            { value: 7, name: 'rose 6' },
+            { value: 9, name: 'rose 7' },
+            { value: 0, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 35
+            }
+          ]
+        },
+        allnum:35
+      },
+      {
+        name: "商丘市",
+        id: "52c89179-ff0d-44dd-89a0-45e10b6ddeba",
+        main1: {
+          data: [1, 13, 2, 5, 5, 1, 0]
+        },
+        main2: {
+          data: [
+            { value: 5, name: 'rose 1' },
+            { value: 2, name: 'rose 2' },
+            { value: 0, name: 'rose 3' },
+            { value: 1, name: 'rose 4' },
+            { value: 33, name: 'rose 5' },
+            { value: 56, name: 'rose 6' },
+            { value: 66, name: 'rose 7' },
+            { value: 66, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 66
+            }
+          ]
+        },
+        allnum:66
+      },
+      {
+        name: "信阳市",
+        id: "87ddb69f-635c-4114-b4bf-c5112e21a392",
+        main1: {
+          data: [30, 10, 40, 20, 30, 40,]
+        },
+        main2: {
+          data: [
+            { value: 10, name: 'rose 1' },
+            { value: 30, name: 'rose 2' },
+            { value: 20, name: 'rose 3' },
+            { value: 10, name: 'rose 4' },
+            { value: 50, name: 'rose 5' },
+            { value: 10, name: 'rose 6' },
+            { value: 30, name: 'rose 7' },
+            { value: 100, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 100
+            }
+          ]
+        },
+        allnum:10
+
+      },
+      {
+        name: "周口市",
+        id: "ff99ad9e-b8cb-4c8c-921c-171b9c2417d9",
+        main1: {
+          data: [60, 10, 10, 0, 1, 1, 3]
+        },
+        main2: {
+          data: [
+            { value: 3, name: 'rose 1' },
+            { value: 3, name: 'rose 2' },
+            { value: 1, name: 'rose 3' },
+            { value: 4, name: 'rose 4' },
+            { value: 40, name: 'rose 5' },
+            { value: 5, name: 'rose 6' },
+            { value: 30, name: 'rose 7' },
+            { value: 10, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 30
+            }
+          ]
+        },
+        allnum:3
+      },
+      {
+        name: "驻马店",
+        id: "08ef2f46-95f1-4f54-9988-1c3f922184a2",
+        main1: {
+          data: [10, 10, 10, 10, 10, 10, 10]
+        },
+        main2: {
+          data: [
+            { value: 30, name: 'rose 1' },
+            { value: 10, name: 'rose 2' },
+            { value: 50, name: 'rose 3' },
+            { value: 30, name: 'rose 4' },
+            { value: 30, name: 'rose 5' },
+            { value: 10, name: 'rose 6' },
+            { value: 21, name: 'rose 7' },
+            { value: 10, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 99
+            }
+          ]
+        },
+        allnum:20
+      },
+      {
+        name: "济源市",
+        id: "669aebae-5c64-4c22-aec8-3cbb60791b29",
+        main1: {
+          data: [1, 10, 2, 3, 5, 1, 0]
+        },
+        main2: {
+          data: [
+            { value: 10, name: 'rose 1' },
+            { value: 55, name: 'rose 2' },
+            { value: 35, name: 'rose 3' },
+            { value: 10, name: 'rose 4' },
+            { value: 31, name: 'rose 5' },
+            { value: 20, name: 'rose 6' },
+            { value: 64, name: 'rose 7' },
+            { value: 10, name: 'rose 8' }
+          ]
+        },
+        main3: {
+          data: [
+            {
+              value: 100
+            }
+          ]
+        },
+        allnum:6
+      },
+    ]
+
+    // let a = "28fe8561-dbac-4fe7-8a59-4c0332cc35fd"
+
+    async function ok() {
+      await app.load('./scene/scene.splinecode');
+      // let ok = app.findObjectById(a)
+      // console.log(ok)
+      // ok.addEventListener("onmouseover",function () {
+      //   console.log("你触碰")
+      // })
+
+      // ok.emitEvent.onmouseenter = function () {
+      //   console.log(123)
+      // }
+      console.log(datainfo);
+
+      console.log(app.getSplineEvents())
+      let even = app.getSplineEvents();
+      // console.log(even);
+      // console.log(app.getSplineEvents.mouseHover);
+      console.log(app);
+      
+      app.addEventListener("mouseHover", function (e) {
+        for (let item = 0; item < datainfo.length; item++) {
+            if(datainfo[item].id==e.target.id&&datainfo[item].name==e.target.name){
+              sf.innerHTML = datainfo[item].name
+              innum.innerHTML=datainfo[item].allnum
+              setData(datainfo[item].main1.data,datainfo[item].main2.data,datainfo[item].main3.data)
+            }  
+        }
+      })
+
+    }
+    ok();
+    // setTimeout(function name(params) {
+    //   app.dispose()
+    // }, 3000)
+
+
+
+
+    // 数据渲染
+
+
+
+
+
+  </script>
+</body>
+
+</html>
